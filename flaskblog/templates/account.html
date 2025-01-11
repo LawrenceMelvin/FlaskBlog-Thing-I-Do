@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static',filename='profile.css')}}">
+<div class="container mt-5">
+    <div class="card text-center p-4">
+        <div class="profile-container">
+            <!-- Profile Image -->
+            <img src="https://via.placeholder.com/100" alt="Profile" class="profile-image mb-3">
+
+            <!-- Username and Email -->
+            <h5 class="card-title mb-0">{{current_user.username}}</h5>
+            <p class="text-muted mb-3">{{current_user.email}}</p>
+
+            <!-- Change Photo Button -->
+            <div class="d-grid">
+                <label class="btn btn-primary upload-button">
+                    Change Photo
+                    <input type="file" accept="image/*">
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <legend class="border-bottom mb-4">Update Profile</legend>
+            <label>{{ form.username.label }}</label>
+              {% if form.username.errors %}
+                {{form.username(class="form-control is-invalid", aria_invalid="true")}}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                       <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+              {% else %}
+                {{form.username(class="form-control")}}
+              {% endif %}
+          </div>
+          <div class="form-group">
+            <label>{{ form.email.label }}</label>
+              {% if form.email.errors %}
+                {{form.email(class="form-control is-invalid", aria_invalid="true")}}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                       <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+              {% else %}
+                {{form.email(class="form-control")}}
+              {% endif %}
+          </div>
+</div>
+<div class="form-group">
+                 {% if form.submit.errors %}
+                    {{form.submit(class="form-control is-invalid", aria_invalid="true")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.submit.errors %}
+                           <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                 {% endif %}
+                {{form.submit(class="btn btn-primary")}}
+            </div>
+{% endblock content %}

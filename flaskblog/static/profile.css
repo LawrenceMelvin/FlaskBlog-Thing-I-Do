@@ -1,0 +1,28 @@
+.profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%; /* Ensures the box height is consistent */
+        }
+        .profile-image {
+            width: 100px; /* Adjust size as needed */
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #f1f1f1;
+        }
+        .card {
+            max-width: 400px;
+            margin: auto;
+        }
+        .upload-button {
+            position: relative;
+            overflow: hidden;
+        }
+        .upload-button input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;

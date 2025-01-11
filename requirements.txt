@@ -1,0 +1,11 @@
+flask
+flask-wtf
+wtforms
+email_validator
+flask-sqlalchemy
+sqlalchemy
+click
+flask-bcrypt
+flask-login
+flask-mail
+itsdangerous

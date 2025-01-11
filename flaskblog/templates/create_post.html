@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+          <div class="form-group">
+              {% if title == 'update_post' %}
+                <legend class="border-bottom mb-4">Update Post</legend>
+              {% else %}
+                <legend class="border-bottom mb-4">New Post</legend>
+              {% endif %}
+            <label>{{ form.title.label }}</label>
+              {% if form.title.errors %}
+                {{form.title(class="form-control is-invalid", aria_invalid="true")}}
+                <div class="invalid-feedback">
+                    {% for error in form.title.errors %}
+                       <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+              {% else %}
+                {{form.title(class="form-control")}}
+              {% endif %}
+          </div>
+          <div class="form-group">
+            <label>{{ form.content.label }}</label>
+              {% if form.content.errors %}
+                {{form.content(class="form-control is-invalid", aria_invalid="true")}}
+                <div class="invalid-feedback">
+                    {% for error in form.content.errors %}
+                       <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+              {% else %}
+                {{form.content(class="form-control")}}
+              {% endif %}
+          </div>
+            <div class="form-group">
+                 {% if form.submit.errors %}
+                    {{form.submit(class="form-control is-invalid", aria_invalid="true")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.submit.errors %}
+                           <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                 {% endif %}
+                {{form.submit(class="btn btn-primary")}}
+            </div>
+
+          </form>
+    </div>
+{% endblock content %}
