@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
@@ -11,7 +13,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 #flask app run config
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ab95d4db05bb3c5f41359e52551cd52a'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY","default-secret")
 # db init
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
@@ -27,9 +29,9 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'lawrenc2000april@gmail.com'
-app.config['MAIL_PASSWORD'] = 'yqphaqiwvhqwcfow'
-app.config['MAIL_DEFAULT_SENDER'] = 'lawrenc2000april@gmail.com'
+app.config['MAIL_USERNAME'] = os.getenv('FLASK_MAIL_USERNAME','default-user-name')
+app.config['MAIL_PASSWORD'] = os.getenv('FLASK_MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('FLASK_MAIL_USERNAME','default-user-name')
 mail = Mail(app)
 
 from flaskblog.users.routes import users
