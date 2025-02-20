@@ -56,27 +56,6 @@ def account():
         form.email.data = current_user.email
     return render_template('account.html',title='Account',form=form)
 
-# @users.route("/users")
-# def user_list():
-#     users = db.session.execute(db.select(User).order_by(User.username)).scalars()
-#     return render_template("list.html", users=users)
-#
-# @users.route("/user/<int:id>")
-# def user_detail(id):
-#     user = db.get_or_404(User, id)
-#     return render_template("user/detail.html", user=user)
-
-# @user.route("/user/<int:id>/delete", methods=["GET", "POST"])
-# def user_delete(id):
-#     user = db.get_or_404(User, id)
-#
-#     if request.method == "POST":
-#         db.session.delete(user)
-#         db.session.commit()
-#         return redirect(url_for("user_list"))
-#
-#     return render_template("user/delete.html", user=user)
-
 @users.route("/user/<username>")
 def user_post(username):
     page = request.args.get('page',1,type=int)
