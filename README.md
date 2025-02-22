@@ -18,3 +18,7 @@ The Jenkins is installed in an **AWS EC2** instance. It used a public ip to run 
 Pipeline
 --------
 The pipelines run's automatically when the code is committed in the master branch.
+
+Docker
+------
+The docker is used to run the application in the EC2 instance. The docker image is created and pushed to the docker hub.
