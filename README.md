@@ -7,7 +7,7 @@ The Blog application is made using flask.
 1. Home Page
 2. Login/ SignUp Page
 3. Post Page
-4. Update Page
+4. Post Update Page
 
 The code is deployed in jenkins via an AWS EC2 instance.
 
