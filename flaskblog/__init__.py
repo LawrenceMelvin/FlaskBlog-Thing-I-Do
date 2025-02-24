@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from dotenv import load_dotenv
+load_dotenv()
 
 class Base(DeclarativeBase):
   pass
@@ -15,7 +17,9 @@ db = SQLAlchemy(model_class=Base)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY","default-secret")
 # db init
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+# DATABASE_URL = os.getenv("FLASKBLOG_DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 #hasing the password we are using flask_bcrypt
 bcrypt = Bcrypt(app)

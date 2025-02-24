@@ -3,7 +3,10 @@ import os
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "default-secret")
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = ''
+    SQLALCHEMY_POOL_RECYCLE = 280
+    SQLALCHEMY_POOL_TIMEOUT = 20
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True

@@ -22,3 +22,8 @@ The pipelines run's automatically when the code is committed in the master branc
 Docker
 ------
 The docker is used to run the application in the EC2 instance. The docker image is created and pushed to the docker hub.
+
+AWS RDS DB
+----------
+The data from the flask application is stored in the AWS RDS DB.
+MySQL is used as the database.

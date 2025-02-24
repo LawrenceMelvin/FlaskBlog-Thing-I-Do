@@ -1,7 +1,12 @@
 from typing import List
+
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from datetime import datetime
+
+from wtforms.validators import length
+
 from flaskblog import db, login_manager, app
 from flask_login import UserMixin
 
@@ -13,9 +18,9 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    username : Mapped[str] = mapped_column(unique=True, nullable=False)
-    email: Mapped[str] = mapped_column(unique=True, nullable=False)
-    password : Mapped[str] = mapped_column(nullable=False)
+    username : Mapped[str] = mapped_column(String(100),unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(300),unique=True, nullable=False)
+    password : Mapped[str] = mapped_column(String(500),nullable=False)
     # Relationship to Post table
     posts: Mapped[List["Post"]] = relationship("Post", back_populates="author",cascade='all, delete')
 
@@ -38,9 +43,9 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     __tablename__ = "posts"
     id: Mapped[int] = mapped_column(primary_key=True,autoincrement=True)
-    title: Mapped[str] = mapped_column(unique=True, nullable=False)
+    title: Mapped[str] = mapped_column(String(300),unique=True, nullable=False)
     blog_posted: Mapped[datetime] = mapped_column(db.DateTime, nullable=False, default=datetime.now())
-    content: Mapped[str] = mapped_column(nullable=False)
+    content: Mapped[str] = mapped_column(String(3000),nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     # Relationship back to User table
     author: Mapped["User"] = relationship("User", back_populates="posts")
