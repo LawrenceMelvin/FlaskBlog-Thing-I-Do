@@ -33,7 +33,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
-            flash('Login unsuccessful. Pls check your username and password')
+            flash('Come on, just put the correct password or maybe email \U0001F621','failure')
     return render_template('login.html',title='Login',form=form)
 
 @users.route("/logout")
