@@ -11,3 +11,5 @@ flask-mail
 itsdangerous
 pymysql
 python-dotenv
+sqlalchemy-libsql
+libsql-client
