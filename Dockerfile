@@ -8,7 +8,8 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir gunicorn
 
 # Copy the rest of the application code into the container
 COPY . .
@@ -20,5 +21,5 @@ ENV FLASK_ENV=production
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Run the application
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Use Gunicorn for production
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "flaskblog:app"]

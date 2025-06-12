@@ -13,3 +13,5 @@ pymysql
 python-dotenv
 sqlalchemy-libsql
 libsql-client
+pymysql
+cryptography>=42.0.0
