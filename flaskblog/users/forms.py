@@ -1,8 +1,13 @@
+from mailbox import Message
+
+from flask import current_app, url_for
 from flask_login import current_user
 from flask_wtf import FlaskForm
+from itsdangerous import URLSafeTimedSerializer
 from wtforms.fields.simple import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, length, Email, EqualTo, ValidationError
 
+from flaskblog import mail
 from flaskblog.models import User
 
 

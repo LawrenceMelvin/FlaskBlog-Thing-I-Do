@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     username : Mapped[str] = mapped_column(String(100),unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(300),unique=True, nullable=False)
     password : Mapped[str] = mapped_column(String(500),nullable=False)
+    email_confirmed: Mapped[bool] = mapped_column(db.Boolean, default=False, nullable=False)
     # Relationship to Post table
     posts: Mapped[List["Post"]] = relationship("Post", back_populates="author",cascade='all, delete')
 

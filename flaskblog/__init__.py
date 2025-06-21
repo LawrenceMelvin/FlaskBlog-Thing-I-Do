@@ -21,6 +21,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Database URL (without ?ssl=true)
 db_url = os.getenv("FLASKBLOG_DATABASE_URL")
+# db_url = "sqlite:///site.db"
 
 # Aiven SSL configuration
 ssl_args = {
@@ -54,11 +55,11 @@ login_manager.login_message_category = 'info'
 # Mail config
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.getenv('FLASK_MAIL_USERNAME', 'default-user-name')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = os.getenv('FLASK_MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('FLASK_MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('FLASK_MAIL_USERNAME', 'default-user-name')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('FLASK_MAIL_USERNAME')
 mail = Mail(app)
 
 # Register Blueprints

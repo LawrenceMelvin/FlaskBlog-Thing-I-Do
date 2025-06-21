@@ -1,12 +1,30 @@
-from flask import Blueprint, redirect, url_for, flash, render_template, request
+from flask import Blueprint, redirect, url_for, flash, render_template, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
 from flaskblog import bcrypt, db
 from flaskblog.models import User, Post
 from flaskblog.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, ResetPasswordForm, RequestResetForm
-from flaskblog.users.utils import send_reset_email
+from flaskblog.users.utils import send_reset_email, send_confirmation_email
 
 users = Blueprint('users',__name__)
+
+@users.route("/confirm_email/<token>",methods=['GET','POST'])
+def confirm_email(token):
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    try:
+        email = serializer.loads(token, salt='email-confirm', max_age=3600)  # 1 hour expiry
+    except (SignatureExpired, BadSignature):
+        flash('The confirmation link is invalid or has expired.', 'danger')
+        return redirect(url_for('main.home'))
+    user = User.query.filter_by(email=email).first_or_404()
+    if not user.email_confirmed:
+        user.email_confirmed = True
+        db.session.commit()
+        flash('Your account has been confirmed!', 'success')
+    else:
+        flash('Account already confirmed.', 'info')
+    return redirect(url_for('main.home'))
 
 @users.route("/register",methods=['GET','POST'])
 def register():
@@ -19,7 +37,9 @@ def register():
         user = User(username=form.username.data,email=form.email.data,password=pw_hash)
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created! You are now able to log in','success')
+        # Send confirmation email
+        send_confirmation_email(user.email)
+        flash(f'Pls verify your email and login','success')
         return redirect(url_for('users.login'))
     return render_template('register.html',title='SignUp',form=form)
 
@@ -28,12 +48,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        mail_confirmed = user.email_confirmed if user else False
+        if user and mail_confirmed and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user,remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
-            flash('Come on, just put the correct password or maybe email \U0001F621','failure')
+            flash('Invalid Email or Password','failure')
     return render_template('login.html',title='Login',form=form)
 
 @users.route("/logout")
